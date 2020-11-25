@@ -3,7 +3,8 @@ const Flight = require('../models/flight');
 module.exports = {
   index,
   new: newFlight,
-  create
+  create,
+  show
 };
 
 function index(req, res) {
@@ -24,3 +25,26 @@ function create(req, res) {
     res.redirect('/flights');
   });
 }
+
+function show(req, res) {
+  Flight.findById(req.params.id, function(err, flight) {
+    res.render('flights/show', {title: 'Flight Details', flight});
+  });
+}
+
+// function show(req, res) {
+//   Flight.findById(req.params.id)
+//     .populate('destination').exec(function(err, flight) {
+//       // Performer.find({}).where('_id').nin(movie.cast) <-- Mongoose query builder
+//       // Native MongoDB approach 
+//       Flight.find(
+//         {_id: {$nin: flight.destinations}},
+//         function(err, destinations) {
+//           console.log(destinations);
+//           res.render('flights/show', {
+//             title: 'Flight Detail', flight, destinations
+//           });
+//         }
+//       );
+//     });
+// }
