@@ -4,7 +4,8 @@ module.exports = {
   index,
   new: newFlight,
   create,
-  show
+  show,
+  delete: deleteFlight
 };
 
 function index(req, res) {
@@ -32,9 +33,15 @@ function show(req, res) {
   });
 }
 
+function deleteFlight(req, res) {
+	Flight.findByIdAndRemove(req.params.id, function(err, flight) {
+		res.redirect('/flights');
+	});
+}
+
 // function show(req, res) {
 //   Flight.findById(req.params.id)
-//     .populate('destination').exec(function(err, flight) {
+//     .populate('destinations').exec(function(err, flight) {
 //       // Performer.find({}).where('_id').nin(movie.cast) <-- Mongoose query builder
 //       // Native MongoDB approach 
 //       Flight.find(
