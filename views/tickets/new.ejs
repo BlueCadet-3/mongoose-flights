@@ -1,0 +1,19 @@
+<%- include('../partials/header.ejs') %>
+
+<h2>New Ticket</h2>
+
+<form action="/flights/<%= flightId %>/tickets" method="POST" id="new-ticket">
+  <label>
+    Seat
+    <input type="text" name="seat" required pattern="[A-F][1-9]\d?">
+  </label> <br>
+  <label>
+    Price
+    <input type="text" name="price">
+  </label> <br>
+
+  <button type="submit" form="new-ticket">Create New Ticket</button>
+
+</form>
+
+<%- include('../partials/footer.ejs') %>

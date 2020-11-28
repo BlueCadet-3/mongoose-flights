@@ -1,4 +1,5 @@
 const Flight = require('../models/flight');
+const Ticket = require('../models/ticket');
 
 module.exports = {
   index,
@@ -9,9 +10,9 @@ module.exports = {
 };
 
 function index(req, res) {
-  Flight.find({}, function(err, flights) {
-    res.render('flights/index', { title: 'All Flights', flights });
-  });
+	Flight.find({}).sort('departs').exec(function(err, flights) {
+		res.render('flights/index', {flights, title: 'All Flights'});
+	});
 }
 
 function newFlight(req, res) {
@@ -22,14 +23,17 @@ function create(req, res) {
   const flight = new Flight(req.body);
   flight.save(function(err) {
     if (err) return res.render('flights/new');
-    console.log(flight);
     res.redirect('/flights');
   });
 }
 
 function show(req, res) {
   Flight.findById(req.params.id, function(err, flight) {
-    res.render('flights/show', {title: 'Flight Details', flight});
+    Ticket.find({flight: flight._id}, function(err, tickets) {
+      console.log(flight);
+      console.log(tickets);
+      res.render('flights/show', {title: 'Flight Details', flight, tickets});
+    });
   });
 }
 
@@ -38,20 +42,3 @@ function deleteFlight(req, res) {
 		res.redirect('/flights');
 	});
 }
-
-// function show(req, res) {
-//   Flight.findById(req.params.id)
-//     .populate('destinations').exec(function(err, flight) {
-//       // Performer.find({}).where('_id').nin(movie.cast) <-- Mongoose query builder
-//       // Native MongoDB approach 
-//       Flight.find(
-//         {_id: {$nin: flight.destinations}},
-//         function(err, destinations) {
-//           console.log(destinations);
-//           res.render('flights/show', {
-//             title: 'Flight Detail', flight, destinations
-//           });
-//         }
-//       );
-//     });
-// }
