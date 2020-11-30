@@ -1,14 +1,15 @@
 <%- include('../partials/header') %>
 
-<table>
+<table class="table">
 
-  <thead>
+  <thead class="thead-dark">
     <tr>
-      <th>Airline</th>
-      <th>Airport</th>
-      <th>Flight Number</th>
-      <th>Date / Time</th>
-      <th>Details</th>
+      <th scope="col">Airline</th>
+      <th scope="col">Airport</th>
+      <th scope="col">Flight #</th>
+      <th scope="col">Date / Time</th>
+      <th scope="col">Details</th>
+      <th scope="col">Delete</th>
     </tr>
   </thead>
 
@@ -19,10 +20,10 @@
         <td><%= f.airport %></td>
         <td><%= f.flightNo %></td>
         <td><%= f.departs %></td>
-        <td><a href="/flights/<%= f._id %>">DETAILS</a></td>
+        <td><a href="/flights/<%= f._id %>"><img src="/images/details.png" alt="details"></a></td>
         <td>        
-          <form action="/flights/<%= f._id %>?_method=DELETE" class="delete-form" method="POST">
-          <button type="submit">X</button>
+          <form action="/flights/<%= f._id %>?_method=DELETE" method="POST" id="delete-flight">
+            <a href="javascript:void()" onclick="document.getElementById('delete-flight').submit();"><img src="/images/trash.png" alt="delete"></a>
           </form>
         </td>
       </tr>
